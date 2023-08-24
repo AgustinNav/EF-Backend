@@ -1,0 +1,54 @@
+#Courses Swagger API Documentation
+#TODO: Agregar documentación del API.
+openapi: 1.0.0
+info:
+  title: Courses Swagger API Documentation
+  version: 1.0.0
+paths:
+  /api/courses:
+    get:
+      summary: Obtiene todos los Cursos existentes en la base de datos
+      tags:
+        - Courses
+      responses:
+        "200":
+          description: La operación fue exitosa
+            schema:
+              type: Array
+              items:
+                $ref: '#/definitions/Courses'
+    post:
+      summary: Crea un nuevo Curso
+      tags:
+        - Courses
+      parameters:
+        - name: body
+          in: body
+          description: Objeto de Curso
+          required: true
+          schema:
+            $ref: '#/definitions/Courses'
+      responses:
+        "201":
+          description: La operación fue exitosa
+          schema:
+              $ref: '#/definitions/Courses'
+        "500":
+          description: No se pudo guardar el Curso.
+definitions:
+  Courses:
+    type: 'object'
+    properties:
+      title:
+        type: 'string'
+      description:
+        type: 'string'
+      teacherName:
+        type: 'string'
+      students:
+        type: 'array'
+    required:
+       - title
+       - description
+       - teacherName
+       - students

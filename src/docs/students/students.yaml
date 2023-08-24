@@ -1,0 +1,65 @@
+#Students Swagger API Documentation
+#TODO: Agregar documentación del API.
+openapi: 1.0.0
+info:
+  title: Students Swagger API Documentation
+  version: 1.0.0
+paths:
+  /api/students:
+    get:
+      summary: Obtiene todos los Estudiantes existentes en la base de datos
+      tags:
+        - Students
+      responses:
+        "200":
+          description: La operación fue exitosa
+            schema:
+              type: Array
+              items:
+                $ref: '#/definitions/Student'
+    post:
+      summary: Crea un nuevo Estudiante
+      tags:
+        - Students
+      parameters:
+        - name: body
+          in: body
+          description: Objeto de Estudiante
+          required: true
+          schema:
+            $ref: '#/definitions/Student'
+      responses:
+        "201":
+          description: La operación fue exitosa
+          schema:
+              $ref: '#/definitions/Student'
+        "500":
+          description: No se pudo guardar el estudiante.
+definitions:
+  Student:
+    type: 'object'
+    properties:
+      name:
+        type: 'string'
+      lastName:
+        type: 'string'
+      email:
+        type: 'string'
+      age:
+        type: 'string'
+      password:
+        type: 'string'
+      role:
+        type: 'string'
+      courses:
+        type: 'Array'
+    required:
+       - name
+       - lastName
+       - email
+       - age
+       - password
+       - role
+       - courses
+    unique:
+       - email

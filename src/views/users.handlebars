@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Usuarios</title>
+</head>
+<body>
+    <h1>Listado de Usuarios:</h1>
+    {{#each users}}
+    <div>
+        <form id="edit-form-{{this._id}}">
+            <input type="text" name="first_name" value="{{this.first_name}}" placeholder="Nombre">
+            <input type="text" name="last_name" value="{{this.last_name}}" placeholder="Apellido">
+            <input type="text" name="email" value="{{this.email}}" placeholder="Email">
+            <input type="number" name="age" value="{{this.age}}" placeholder="Edad">
+            <input type="text" name="password" value="{{this.password}}" placeholder="Contraseña">
+            <select name="role">
+                <option value="user" {{#if (eq this.role "user")}}selected{{/if}}>Usuario</option>
+                <option value="admin" {{#if (eq this.role "admin")}}selected{{/if}}>Admin</option>
+            </select>
+            <button type="button" onclick="saveUser('{{this._id}}')">Guardar</button>
+        </form>
+    </div>
+    {{/each}}
+
+    <script>
+        function saveUser(userId) {
+            const form = document.getElementById(`edit-form-${userId}`);
+            const formData = new FormData(form);
+            const userObject = {};
+
+            formData.forEach((value, key) => {
+                userObject[key] = value;
+            });
+
+            fetch(`/api/users/${userId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userObject),
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Usuario actualizado exitosamente.');
+                } else {
+                    alert('Error al actualizar el usuario.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al actualizar el usuario.');
+            });
+        }
+    </script>
+</body>
+</html>
